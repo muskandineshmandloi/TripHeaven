@@ -1,0 +1,185 @@
+/* body{
+    background-color: pink;
+} */
+
+
+
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  font-optical-sizing: auto;
+  font-weight: 400 !important;
+  font-style: normal;
+
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+
+.container{
+    flex: 1;
+}
+/* Header - navbar */
+
+.navbar{
+    height: 5rem;
+    background-color:white;
+}
+
+.fa-avianex{
+    color: #fe433d;
+    font-size: 2rem;
+}
+
+
+.nav-link{
+    color: #222222 !important;
+}
+
+
+
+/* Footer */
+.f-info-socials{
+    width: 100%;
+}
+
+.f-info-socials i{
+    margin-left: 0.5rem;
+    font-size: 1.2rem;
+    color: #222222 !important;
+    opacity: 0.7;
+}
+
+.f-info-socials i:hover{
+    opacity: 1;
+}
+
+
+/* links */
+
+.f-info-links{
+    width: 100%;
+}
+
+.f-info-links a{
+    
+    text-decoration: none;
+    color: #222222;
+}
+
+
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+
+
+.f-info{
+    padding-top: 1rem;
+    text-align: center;
+    display: flex;
+    height: 8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+    background-color: #ebebeb;
+}
+
+
+
+/* index.ejs */
+/* cards */
+
+.listing-card{
+    border: none !important;
+    margin-bottom: 2rem;
+    margin-left: 2rem;
+}
+
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+
+
+.card-text p {
+    font-weight: 400 !important;
+}
+
+
+.listing-link{
+    text-decoration: none;
+}
+
+/* card effects */
+
+
+.card-img-overlay{
+    opacity: 0;
+}
+
+.card-img-overlay:hover{
+  opacity: 0.3;
+  background-color: white;
+}
+
+
+
+/* Form */
+
+.submit{
+    margin-bottom: 2rem;
+}
+
+.add-btn, .edit-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+
+
+/* Show page */
+
+.show-img {
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.show-card {
+    border-radius: 12px;
+    overflow: hidden;
+    border: none !important;
+}
+
+.btns{
+    display: flex;
+}
+
+
+
+/* REVIEWS */
+
+
+
+#map{
+    height: 300px;
+    width: 100vh;
+}
+
+
+
+.submit-btn{
+    background-color: #fe424d !important;
+    text-decoration: none;
+    color: black !important;
+    border: none !important;   
+}
