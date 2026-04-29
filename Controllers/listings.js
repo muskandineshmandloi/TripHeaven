@@ -35,9 +35,13 @@ module.exports.postListing = async (req, res, next) => {
     const response = await fetch(
         `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json&limit=1`,
         {
-            headers : {'User-Agent': 'TripHeaven/1.0'}
-        }   
+            headers: { 'User-Agent': 'TripHeaven/1.0' }
+        }
     );
+
+    if (!response.ok) {
+        return next(new ExpressError(500, "Location API failed"));
+    }
 
     const data = await response.json();
 
@@ -46,7 +50,14 @@ module.exports.postListing = async (req, res, next) => {
         return res.redirect("/listings/new");
     }
 
-    const result = await uploadToCloudinary(req.file.buffer);
+    let result;
+
+    try {
+        result = await uploadToCloudinary(req.file.buffer);
+    } catch (err) {
+        return next(new ExpressError(500, "Image upload failed"));
+    }
+
     
     let url = result.secure_url;
     let filename = result.public_id;
