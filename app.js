@@ -22,6 +22,10 @@ const userRouter = require("./routes/user.js");
 
 const dbURL = process.env.ATLAS_URL;
 
+const PORT = process.env.PORT || 8080;
+
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
@@ -93,7 +97,7 @@ main()
         res.status(status).render("error.ejs", { message });
     });
 
-    app.listen(8080, () => {
+    app.listen(PORT, () => {
         console.log("Server is listening at port 8080");
     });
 })
