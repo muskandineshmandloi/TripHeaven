@@ -31,13 +31,16 @@ module.exports.postListing = async (req, res, next) => {
 
 
     const location = req.body.listing?.location;
+    const country = req.body.listing?.country;
+
+    const query = `${location}, ${country}`;
 
 
     let coords = null;
 
     try {
         const response = await fetch(
-            `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json&limit=1`,
+            `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`,
             {
                 headers: {
                     "User-Agent": "TripHeaven/1.0 (your-email@example.com)",
