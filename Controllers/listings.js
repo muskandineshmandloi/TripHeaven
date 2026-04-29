@@ -9,7 +9,7 @@ const { uploadToCloudinary } = require("../cloudConfig.js");
 module.exports.index = async (req, res) => {
     
     const allListings = await Listing.find({});
-    res.render("listings/index.ejs", { allListings });
+    res.render("listings/index", { allListings });
 };
 
 module.exports.renderNewForm = (req, res) =>{
@@ -30,33 +30,44 @@ module.exports.filter = async(req, res) => {
 module.exports.postListing = async (req, res, next) => {
 
 
-    const location = req.body.listing.location;
+    const location = req.body.listing?.location;
 
-   const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json&limit=1`,
-        {
-            headers: {
-                "User-Agent": "TripHeaven/1.0 (your-email@example.com)",
-                "Accept": "application/json"
+
+    let coords = null;
+
+    try {
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json&limit=1`,
+            {
+                headers: {
+                    "User-Agent": "TripHeaven/1.0 (your-email@example.com)",
+                    "Accept": "application/json"
+                }
+            }
+        );
+
+        if (response.ok) {
+            const data = await response.json();
+
+            if (data.length) {
+                coords = {
+                    type: "Point",
+                    coordinates: [
+                        parseFloat(data[0].lon),
+                        parseFloat(data[0].lat)
+                    ]
+                };
             }
         }
-    );
-
-   if (!response.ok) {
-        const text = await response.text();
-        console.log("Location API error response:", text);
-
-        return next(new ExpressError(500, "Location API failed"));
-    } 
-
-    const data = await response.json();
-
-    if (!data.length) {
-        req.flash("error", "Invalid location");
-        return res.redirect("/listings/new");
+    } catch (err) {
+        console.log("Geo API failed:", err);
     }
 
     let result;
+
+    if (!req.file) {
+        return next(new ExpressError(400, "Image is required"));
+    }
 
     try {
         result = await uploadToCloudinary(req.file.buffer);
@@ -67,20 +78,17 @@ module.exports.postListing = async (req, res, next) => {
     
     let url = result.secure_url;
     let filename = result.public_id;
-    console.log(url, "..", filename);
+    
 
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
     newListing.image = {url, filename};  // ← save cloudinary URL
-    newListing.geometry = {
-        type: "Point",
-        coordinates: [
-            parseFloat(data[0].lon),  
-            parseFloat(data[0].lat)]
-    }
+    
+
+
+    newListing.geometry = coords || undefined;
 
     let savedListing = await newListing.save();
-    console.log(savedListing);
     req.flash("success", "New Listing Created!");
     res.redirect("/listings");
 };
@@ -121,7 +129,7 @@ module.exports.putUpadateListing = async (req, res, next) => {
     }
 
     const { image } = newListing;
-    console.log(image);
+    
     req.flash("success", "Listing updated successfully!");
     res.redirect(`/listings/${id}`);  
     
@@ -130,7 +138,7 @@ module.exports.putUpadateListing = async (req, res, next) => {
 module.exports.deleteListing = async (req, res) => {
     let {id} = req.params;
     let deletedListing =  await Listing.findByIdAndDelete(id);
-    console.log(deletedListing);
+    
     req.flash("success", "listing deleted successfully");
     res.redirect("/listings");
 };

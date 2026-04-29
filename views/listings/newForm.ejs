@@ -27,7 +27,10 @@
 
                 <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
-                    <input name="listing[price]"  type="number" placeholder="1200" class="form-control">
+
+                    <input name="listing[price]"  type="number" placeholder="1200" class="form-control" required>
+
+
                     <div class="invalid-feedback">
                         Please enter a valid price
                     </div>
@@ -35,7 +38,7 @@
 
                 <div class="mb-3">
                     <label for="image" class="form-label">Upload Listing Image</label>
-                    <input type="file" name="listing[image]" id="" placeholder="" class="form-control">
+                    <input type="file" name="listing[image]" class="form-control" required>
                     <div class="invalid-feedback">
                         Please enter a valid file
                     </div>
@@ -62,7 +65,7 @@
                      <div class="mb-3 col-md-4 col-sm-12">
                         <label for="category" class="form-label">Category</label>
 
-                        <select class="form-select" aria-label="Default select example" name="listing[category]" class="form-control" required>
+                        <select class="form-select" name="listing[category]" class="form-control" required>
                             <option value="rooms" selected>Rooms</option>
                             <option value="arctic">Arctic</option>
                             <option value="mountains">Mountains</option>
@@ -73,7 +76,7 @@
                         </select>
 
                         <div class="invalid-feedback">
-                            Country name should be valid
+                            Please select a valid category
                         </div>
                     </div>
 
