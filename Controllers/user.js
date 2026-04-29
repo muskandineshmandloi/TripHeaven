@@ -74,3 +74,9 @@ module.exports.profile = async (req, res, next) => {
 
     res.render("users/profile.ejs", { user, listings });
 };
+
+
+module.exports.home = async(req, res, next) => {
+    req.flash("success", "Welcome");
+    return res.redirect("/listings");
+}
