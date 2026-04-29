@@ -32,16 +32,22 @@ module.exports.postListing = async (req, res, next) => {
 
     const location = req.body.listing.location;
 
-    const response = await fetch(
+   const response = await fetch(
         `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json&limit=1`,
         {
-            headers: { 'User-Agent': 'TripHeaven/1.0' }
+            headers: {
+                "User-Agent": "TripHeaven/1.0 (your-email@example.com)",
+                "Accept": "application/json"
+            }
         }
     );
 
-    if (!response.ok) {
+   if (!response.ok) {
+        const text = await response.text();
+        console.log("Location API error response:", text);
+
         return next(new ExpressError(500, "Location API failed"));
-    }
+    } 
 
     const data = await response.json();
 
