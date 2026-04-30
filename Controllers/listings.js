@@ -26,27 +26,18 @@ module.exports.filter = async(req, res) => {
     res.render("listings/index", {allListings});
 }
 
-
 module.exports.postListing = async (req, res, next) => {
-
 
     const location = req.body.listing?.location;
     const country = req.body.listing?.country;
 
     const query = `${location}, ${country}`;
 
-
     let coords = null;
 
     try {
         const response = await fetch(
-            `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`,
-            {
-                headers: {
-                    "User-Agent": "TripHeaven/1.0 (your-email@example.com)",
-                    "Accept": "application/json"
-                }
-            }
+            `https://us1.locationiq.com/v1/search.php?key=${process.env.LOCATIONIQ_KEY}&q=${encodeURIComponent(query)}&format=json&limit=1`
         );
 
         if (response.ok) {
@@ -61,37 +52,36 @@ module.exports.postListing = async (req, res, next) => {
                     ]
                 };
             }
+        } else {
+            console.log("LocationIQ error:", response.status);
         }
+
     } catch (err) {
         console.log("Geo API failed:", err);
     }
-
-    let result;
 
     if (!req.file) {
         return next(new ExpressError(400, "Image is required"));
     }
 
+    let result;
     try {
         result = await uploadToCloudinary(req.file.buffer);
     } catch (err) {
         return next(new ExpressError(500, "Image upload failed"));
     }
 
-    
     let url = result.secure_url;
     let filename = result.public_id;
-    
 
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
-    newListing.image = {url, filename};  // ← save cloudinary URL
-    
-
+    newListing.image = { url, filename };
 
     newListing.geometry = coords || undefined;
 
-    let savedListing = await newListing.save();
+    await newListing.save();
+
     req.flash("success", "New Listing Created!");
     res.redirect("/listings");
 };
