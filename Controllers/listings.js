@@ -98,35 +98,80 @@ module.exports.renderEditForm = async (req, res) => {
 };
 
 module.exports.putUpadateListing = async (req, res, next) => {
-    if(!req.body.listing){
+    if (!req.body.listing) {
         return next(new ExpressError(400, "Send valid data for listing"));
+    }
+
+    let { id } = req.params;
+
+    // Fetch existing listing
+    const existingListing = await Listing.findById(id);
+    if (!existingListing) {
+        return next(new ExpressError(404, "Listing not found"));
     }
 
     const updatedData = { ...req.body.listing };
 
-    let { id } = req.params;
+    const newLocation = req.body.listing?.location;
+    const newCountry = req.body.listing?.country;
 
-    if(req.file){
-        const result = await uploadToCloudinary(req.file.buffer);
-        updatedData.image = {
-            url : result.secure_url,
-            filename : result.public_id
-        };
+    //  ALWAYS geocode if location exists (no condition bug)
+    if (newLocation && newCountry) {
+        const query = `${newLocation}, ${newCountry}`;
 
+        try {
+            console.log("Geocoding:", query);
+
+            const response = await fetch(
+                `https://us1.locationiq.com/v1/search?key=${process.env.LOCATIONIQ_KEY}&q=${encodeURIComponent(query)}&format=json&limit=1`
+            );
+
+            if (response.ok) {
+                const data = await response.json();
+
+                console.log("Geo Data:", data);
+
+                if (data.length) {
+                    updatedData.geometry = {
+                        type: "Point",
+                        coordinates: [
+                            parseFloat(data[0].lon),
+                            parseFloat(data[0].lat)
+                        ]
+                    };
+                } else {
+                    console.log("No geocoding results for:", query);
+                }
+            } else {
+                console.log("LocationIQ error:", response.status);
+            }
+
+        } catch (err) {
+            console.log("Geo API failed:", err);
+        }
     }
 
-    const newListing = await Listing.findByIdAndUpdate(id, updatedData, {new : true});
+    // Image update
+    if (req.file) {
+        try {
+            const result = await uploadToCloudinary(req.file.buffer);
 
-    if(!newListing){
-        return next(new ExpressError(404, "Listing not found"));
+            updatedData.image = {
+                url: result.secure_url,
+                filename: result.public_id
+            };
+        } catch (err) {
+            return next(new ExpressError(500, "Image upload failed"));
+        }
     }
 
-    const { image } = newListing;
-    
+    // Update DB
+    const updatedListing = await Listing.findByIdAndUpdate(id, updatedData, { new: true });
+
     req.flash("success", "Listing updated successfully!");
-    res.redirect(`/listings/${id}`);  
-    
+    res.redirect(`/listings/${id}`);
 };
+
 
 module.exports.deleteListing = async (req, res) => {
     let {id} = req.params;
