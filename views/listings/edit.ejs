@@ -57,7 +57,7 @@
                 <div class="mb-3">
                     <label for="category" class="form-label">Category</label>
 
-                        <select class="form-select" aria-label="Default select example" name="listing[category]" class="form-control" required>
+                        <select name="listing[category]" class="form-select" required>
                             <option value="rooms" <%= listing.category === "rooms" ? "selected" : "" %>>Rooms</option>
                             <option value="arctic" <%= listing.category === "arctic" ? "selected" : "" %>>Arctic</option>
                             <option value="mountains" <%= listing.category === "mountains" ? "selected" : "" %>>Mountains</option>

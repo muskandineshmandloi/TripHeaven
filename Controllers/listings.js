@@ -115,7 +115,7 @@ module.exports.putUpadateListing = async (req, res, next) => {
     const newLocation = req.body.listing?.location;
     const newCountry = req.body.listing?.country;
 
-    //  ALWAYS geocode if location exists (no condition bug)
+    
     if (newLocation && newCountry) {
         const query = `${newLocation}, ${newCountry}`;
 
@@ -166,7 +166,7 @@ module.exports.putUpadateListing = async (req, res, next) => {
     }
 
     // Update DB
-    const updatedListing = await Listing.findByIdAndUpdate(id, updatedData, { new: true });
+    const updatedListing = await Listing.findByIdAndUpdate(id, updatedData, { new: true ,  runValidators: true});
 
     req.flash("success", "Listing updated successfully!");
     res.redirect(`/listings/${id}`);
