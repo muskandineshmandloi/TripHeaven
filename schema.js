@@ -37,7 +37,6 @@ module.exports.searchSchema = Joi.object({
         .required()
 });
 
-const Joi = require("joi");
 
 module.exports.ListingSchema = Joi.object({
     listing: Joi.object({
