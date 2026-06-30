@@ -77,7 +77,7 @@ module.exports.searchSchema = Joi.object({
 
 module.exports.BookingSchema = Joi.object({
     booking: Joi.object({
-        checkIn: Joi.date().min(now).required(),
+        checkIn: Joi.date().min('now').required(),
 
         checkOut: Joi.date().greater(Joi.ref("checkIn")).required()
             .messages({
