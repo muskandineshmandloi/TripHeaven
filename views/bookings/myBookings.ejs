@@ -1,0 +1,45 @@
+<h1>My Bookings</h1>
+
+<% if (bookings.length === 0) { %>
+    <p>No bookings yet.</p>
+<% } %>
+
+<div class="bookings-container">
+    <% bookings.forEach(booking => { %>
+        <div class="booking-card">
+
+            <h3><%= booking.listing.title %></h3>
+
+            <p>
+                <b>Check-in:</b> 
+                <%= booking.checkIn.toDateString() %>
+            </p>
+
+            <p>
+                <b>Check-out:</b> 
+                <%= booking.checkOut.toDateString() %>
+            </p>
+
+            <p>
+                <b>Guests:</b> <%= booking.guests %>
+            </p>
+
+            <p>
+                <b>Rooms:</b> <%= booking.rooms %>
+            </p>
+
+            <p>
+                <b>Total Price:</b> ₹<%= booking.totalPrice %>
+            </p>
+
+            <p>
+                <b>Status:</b> <%= booking.bookingStatus %>
+            </p>
+
+            <a href="/listings/<%= booking.listing._id %>">
+                View Listing
+            </a>
+
+        </div>
+    <% }) %>
+</div>
