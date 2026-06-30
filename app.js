@@ -19,6 +19,7 @@ const { MongoStore } = require("connect-mongo");
 const reviewsRouter = require("./routes/reviews.js");
 const listingsRouter = require("./routes/listings.js");
 const userRouter = require("./routes/user.js");
+const bookingRouter = require("./Routes/booking.js");
 
 const dbURL = process.env.ATLAS_URL;
 
@@ -84,6 +85,7 @@ main()
     app.use("/listings", listingsRouter);
     app.use("/listings/:id/reviews", reviewsRouter);
     app.use("/", userRouter);
+    app.use("/", bookingRouter);
 
     app.use((req, res, next) => {
         next(new ExpressError(404, "Page not found"));

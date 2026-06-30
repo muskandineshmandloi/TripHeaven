@@ -24,6 +24,53 @@
 
     <% const isOwner = currUser && listing.owner && currUser._id.equals(listing.owner._id); %>
 
+    <% if (currUser && !isOwner) { %>
+
+    <div class="row mt-4">
+        <div class="col-6 offset-3">
+
+            <hr>
+            <h4>Book this property</h4>
+
+            <form action="/listings/<%= listing._id %>/book" method="POST">
+
+                <div class="mb-3">
+                    <label>Check In</label>
+                    <input type="date" name="booking[checkIn]" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label>Check Out</label>
+                    <input type="date" name="booking[checkOut]" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label>Guests</label>
+                    <input type="number" name="booking[guests]" min="1" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label>Rooms</label>
+                    <input type="number" name="booking[rooms]" min="1" value="1" class="form-control" required>
+                </div>
+
+                <button class="btn btn-success">Book Now</button>
+
+            </form>
+
+            <hr>
+        </div>
+    </div>
+
+    <% } else if (!currUser) { %>
+
+    <div class="col-6 offset-3 mt-4">
+        <p>Please login to book this property.</p>
+    </div>
+
+    <% } %>
+
+
     <!-- EDIT / DELETE -->
     <% if (isOwner) { %>
         <div class="btns mb-4">
@@ -97,6 +144,7 @@
         </div>
     <% } %>
 
+    
     <!-- REVIEWS -->
     <div class="col-6 offset-3">
         <div class="row">

@@ -1,0 +1,33 @@
+<h1>Owner Dashboard</h1>
+
+<% if (bookings.length === 0) { %>
+    <p>No bookings yet on your listings.</p>
+<% } %>
+
+<div class="container">
+
+<% bookings.forEach(booking => { %>
+
+    <div class="card mb-3">
+        <div class="card-body">
+
+            <h4><%= booking.listing.title %></h4>
+
+            <p><b>Booked by:</b> <%= booking.user.username %></p>
+
+            <p><b>Check In:</b> <%= booking.checkIn.toDateString() %></p>
+            <p><b>Check Out:</b> <%= booking.checkOut.toDateString() %></p>
+
+            <p><b>Guests:</b> <%= booking.guests %></p>
+            <p><b>Rooms:</b> <%= booking.rooms %></p>
+
+            <p><b>Total Price:</b> ₹<%= booking.totalPrice %></p>
+
+            <p><b>Status:</b> <%= booking.bookingStatus %></p>
+
+        </div>
+    </div>
+
+<% }) %>
+
+</div>
