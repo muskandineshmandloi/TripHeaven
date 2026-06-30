@@ -19,7 +19,7 @@ const { MongoStore } = require("connect-mongo");
 const reviewsRouter = require("./routes/reviews.js");
 const listingsRouter = require("./routes/listings.js");
 const userRouter = require("./routes/user.js");
-const bookingRouter = require("./Routes/booking.js");
+const bookingRouter = require("./routes/booking.js");
 
 const dbURL = process.env.ATLAS_URL;
 
