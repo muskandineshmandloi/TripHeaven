@@ -27,6 +27,11 @@ router.get(
     bookingController.ownerDashboard
 );
 
+router.patch(
+    "/bookings/:id/complete",
+    isLoggedIn,
+    bookingController.completeBooking
+);
 
 router.patch(
     "/bookings/:id/cancel",

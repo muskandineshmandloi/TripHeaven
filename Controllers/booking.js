@@ -81,9 +81,12 @@ module.exports.createBooking = async (req, res) => {
 
 
 module.exports.ownerDashboard = async (req, res) => {
-    const listings = await Listing.find({ owner: req.user._id });
 
-    const listingIds = listings.map(l => l._id);
+    const listings = await Listing.find({
+        owner: req.user._id
+    });
+
+    const listingIds = listings.map(listing => listing._id);
 
     const bookings = await Booking.find({
         listing: { $in: listingIds }
@@ -91,9 +94,35 @@ module.exports.ownerDashboard = async (req, res) => {
     .populate("listing")
     .populate("user");
 
-    res.render("bookings/dashboard.ejs", { bookings });
-};
+    // Statistics
+    const totalBookings = bookings.length;
 
+    const activeBookings = bookings.filter(
+        booking => booking.bookingStatus === "Confirmed"
+    ).length;
+
+    const completedBookings = bookings.filter(
+        booking => booking.bookingStatus === "Completed"
+    ).length;
+
+    const cancelledBookings = bookings.filter(
+        booking => booking.bookingStatus === "Cancelled"
+    ).length;
+
+    const totalRevenue = bookings
+        .filter(booking => booking.bookingStatus === "Completed")
+        .reduce((sum, booking) => sum + booking.totalPrice, 0);
+
+    res.render("bookings/dashboard.ejs", {
+        bookings,
+        totalBookings,
+        activeBookings,
+        completedBookings,
+        cancelledBookings,
+        totalRevenue
+    });
+
+};
 
 module.exports.cancelBooking = async (req, res) => {
 
@@ -124,4 +153,37 @@ module.exports.cancelBooking = async (req, res) => {
     req.flash("success", "Booking cancelled successfully.");
 
     res.redirect("/bookings/my");
+};
+
+
+module.exports.completeBooking = async (req, res) => {
+
+    const { id } = req.params;
+
+    const booking = await Booking.findById(id)
+        .populate("listing");
+
+    if (!booking) {
+        req.flash("error", "Booking not found.");
+        return res.redirect("/dashboard");
+    }
+
+    // Only listing owner can complete
+    if (!booking.listing.owner.equals(req.user._id)) {
+        req.flash("error", "Unauthorized.");
+        return res.redirect("/dashboard");
+    }
+
+    if (booking.bookingStatus !== "Confirmed") {
+        req.flash("error", "Only confirmed bookings can be completed.");
+        return res.redirect("/dashboard");
+    }
+
+    booking.bookingStatus = "Completed";
+
+    await booking.save();
+
+    req.flash("success", "Booking marked as completed.");
+
+    res.redirect("/dashboard");
 };

@@ -1,50 +1,250 @@
-<% layout("/layouts/boilerplate") %>
+<%- layout("/layouts/boilerplate") %>
 
 <style>
-    img{
-        width: 100%;
-        height: 300px;
-        object-fit: cover;
-    }
 
-    .card{
-        border: none;
-    }
+.profile-card{
+    border:none;
+    border-radius:15px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
 
-    .card a{
-        background-color: #fe424d !important;
-        border: none;
-    }
+.profile-icon{
+    font-size:80px;
+    color:#6c757d;
+}
+
+.listing-card{
+    border:none;
+    border-radius:15px;
+    overflow:hidden;
+    transition:.3s;
+    box-shadow:0 6px 20px rgba(0,0,0,.08);
+}
+
+.listing-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 12px 28px rgba(0,0,0,.15);
+}
+
+.listing-card img{
+    height:220px;
+    object-fit:cover;
+}
+
+.view-btn{
+    background:#fe424d;
+    border:none;
+}
+
+.view-btn:hover{
+    background:#e63946;
+}
+
+.stats-card{
+    border:none;
+    border-radius:15px;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
+
 </style>
 
-<div class="row mt-3">
-    <div class="col-12 col-md-8 offset-md-2">
 
-        <h1>Username: <%= user.username %></h1>
-        <p>Email: <%= user.email %></p>
+<div class="container mt-5">
 
-        <% if(listings.length > 0) { %>
-        <div class="row row-cols-lg-2 row-cols-md-1 row-cols-sm-1 mt-3">
+    <!-- PROFILE -->
 
-            <% for(listing of listings) { %>
-            <div class="col mb-3">
-                <div class="card">
-                    <img src="<%= listing.image.url %>" class="card-img-top">
+    <div class="card profile-card mb-5">
 
-                    <div class="card-body">
-                        <h5><%= listing.title %></h5>
-                        <p>₹<%= listing.price %></p>
+        <div class="card-body text-center">
 
-                        <a href="/listings/<%= listing._id %>" class="btn btn-primary mb-3">
-                            View
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <% } %>
+            <i class="fa-solid fa-circle-user profile-icon mb-3"></i>
+
+            <h2 class="fw-bold">
+                <%= user.username %>
+            </h2>
+
+            <p class="text-muted">
+                <i class="fa-solid fa-envelope"></i>
+                <%= user.email %>
+            </p>
+
+            <span class="badge bg-success fs-6">
+                <%= listings.length %> Listings
+            </span>
 
         </div>
-        <% } %>
 
     </div>
+
+
+
+    <!-- STATS -->
+
+    <div class="row mb-5">
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card stats-card">
+
+                <div class="card-body text-center">
+
+                    <i class="fa-solid fa-house fa-2x text-primary"></i>
+
+                    <h3 class="mt-2">
+                        <%= listings.length %>
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Properties Listed
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card stats-card">
+
+                <div class="card-body text-center">
+
+                    <i class="fa-solid fa-star fa-2x text-warning"></i>
+
+                    <h3 class="mt-2">
+                        Host
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Account Status
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card stats-card">
+
+                <div class="card-body text-center">
+
+                    <i class="fa-solid fa-calendar-check fa-2x text-success"></i>
+
+                    <h3 class="mt-2">
+                        Active
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Hosting Status
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- LISTINGS -->
+
+    <h2 class="fw-bold mb-4">
+
+        <i class="fa-solid fa-house"></i>
+
+        My Listings
+
+    </h2>
+
+
+
+    <% if(listings.length === 0){ %>
+
+        <div class="alert alert-info text-center">
+
+            <h5>No properties listed yet.</h5>
+
+            <a href="/listings/new"
+               class="btn btn-dark mt-2">
+
+                Create Your First Listing
+
+            </a>
+
+        </div>
+
+    <% } %>
+
+
+
+    <div class="row">
+
+        <% listings.forEach(listing=>{ %>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+
+            <div class="card listing-card h-100">
+
+                <img
+                    src="<%= listing.image.url %>"
+                    class="card-img-top"
+                >
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold">
+                        <%= listing.title %>
+                    </h5>
+
+                    <p class="text-muted">
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        <%= listing.location %>,
+                        <%= listing.country %>
+
+                    </p>
+
+                    <h5 class="text-success">
+
+                        ₹<%= listing.price.toLocaleString("en-IN") %>
+
+                        <small class="text-muted fs-6">
+
+                            / night
+
+                        </small>
+
+                    </h5>
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    <a
+                        href="/listings/<%= listing._id %>"
+                        class="btn btn-danger view-btn w-100">
+
+                        View Property
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <% }) %>
+
+    </div>
+
 </div>
