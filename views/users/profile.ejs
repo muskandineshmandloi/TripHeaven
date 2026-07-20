@@ -25,7 +25,7 @@ body{
 }
 
 .stat-card:hover{
-    transform:translateY(-5px);
+    transform:translateY(-1px);
 }
 
 .listing-card{
@@ -37,7 +37,7 @@ body{
 }
 
 .listing-card:hover{
-    transform:translateY(-8px);
+    transform:translateY(-1px);
     box-shadow:0 15px 35px rgba(0,0,0,.15);
 }
 
@@ -61,7 +61,7 @@ body{
 
     <!-- Profile Card -->
 
-    <div class="card profile-card mb-5">
+    <div class="card profile-card mb-7">
 
         <div class="card-body text-center py-5">
 
@@ -95,7 +95,6 @@ body{
 
                 <div class="card-body text-center py-4">
 
-                    <i class="fa-solid fa-house fa-2x text-primary mb-3"></i>
 
                     <h2 class="fw-bold">
                         <%= listings.length %>
@@ -117,7 +116,7 @@ body{
 
                 <div class="card-body text-center py-4">
 
-                    <i class="fa-solid fa-calendar-check fa-2x text-success mb-3"></i>
+                    
 
                     <h2 class="fw-bold">
                         Active
@@ -125,28 +124,6 @@ body{
 
                     <p class="text-muted mb-0">
                         Hosting Status
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4">
-
-            <div class="card stat-card">
-
-                <div class="card-body text-center py-4">
-
-                    <i class="fa-solid fa-star fa-2x text-warning mb-3"></i>
-
-                    <h2 class="fw-bold">
-                        Host
-                    </h2>
-
-                    <p class="text-muted mb-0">
-                        Account Type
                     </p>
 
                 </div>
@@ -163,7 +140,6 @@ body{
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <h2 class="fw-bold">
-            <i class="fa-solid fa-house"></i>
             My Listings
         </h2>
 
