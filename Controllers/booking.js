@@ -18,10 +18,23 @@ module.exports.createBooking = async (req, res) => {
         return res.redirect("/listings");
     }
 
+    if (listing.owner.equals(req.user._id)) {
+        req.flash("error", "You cannot book your own property.");
+        return res.redirect(`/listings/${id}`);
+    }
+
     const { checkIn, checkOut, guests, rooms } = req.body.booking;
 
     const start = new Date(checkIn);
     const end = new Date(checkOut);
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    if (start < today) {
+        req.flash("error", "Check-in cannot be in the past");
+        return res.redirect(`/listings/${id}`);
+    }
 
     if (end <= start) {
         req.flash("error", "Check-out must be after check-in");
