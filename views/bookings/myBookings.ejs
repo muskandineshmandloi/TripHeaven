@@ -136,7 +136,7 @@ body{
 
                     <p class="text-muted">
 
-                        <i class="fa-solid fa-location-dot text-danger"></i>
+                        <i class="fa-solid fa-location-dot" style="color: #fe433d !important;"></i>
 
                         <%= booking.listing.location %>,
                         <%= booking.listing.country %>
@@ -292,7 +292,7 @@ body{
 
                                 <span class="badge bg-danger status-badge">
 
-                                    <i class="fa-solid fa-ban"></i>
+                                    
 
                                     Cancelled
 
@@ -322,8 +322,10 @@ body{
                                 method="POST">
 
                                 <button
-                                    class="btn btn-danger action-btn"
-                                    onclick="return confirm('Cancel this booking?')">
+                                    class="btn action-btn"
+                                    onclick="return confirm('Cancel this booking?')"
+                                    style="color: #fe433d !important;"
+                                    >
 
 
                                     Cancel
