@@ -12,10 +12,11 @@ body{
     overflow:hidden;
     box-shadow:0 10px 25px rgba(0,0,0,.08);
     transition:.3s;
+    padding: 1rem;
 }
 
 .booking-card:hover{
-    transform:translateY(-6px);
+    transform:translateY(-2px);
     box-shadow:0 16px 35px rgba(0,0,0,.15);
 }
 
@@ -23,7 +24,7 @@ body{
     height:250px;
     object-fit:cover;
     padding:18px;
-    border-radius:30px;
+    border-radius:1rem;
 }
 
 .info-box{
@@ -66,7 +67,7 @@ body{
 
             <h2 class="fw-bold mb-1">
 
-                <i class="fa-solid fa-calendar-check text-danger"></i>
+                <i class="fa-solid fa-calendar-check" style="color: #fe433d !important;"></i>
 
                 My Bookings
 
@@ -89,7 +90,6 @@ body{
 
         <div class="card-body text-center py-5">
 
-            <i class="fa-solid fa-suitcase-rolling fa-4x text-secondary mb-3"></i>
 
             <h3>No Bookings Yet</h3>
 
@@ -99,7 +99,7 @@ body{
 
             </p>
 
-            <a href="/listings" class="btn btn-danger rounded-pill px-4">
+            <a href="/listings" class="btn rounded-pill px-4" style="color: #fe433d !important; border-radius: 1rem" >
 
                 Explore Listings
 
@@ -126,7 +126,7 @@ body{
                     class="booking-img card-img-top"
                 >
 
-                <div class="card-body">
+                <div class="card-body p-4">
 
                     <h3 class="fw-bold mb-2">
 

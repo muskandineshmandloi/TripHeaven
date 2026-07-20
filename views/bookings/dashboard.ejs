@@ -77,8 +77,7 @@ body{
 
         <h2 class="fw-bold">
 
-            <i class="fa-solid fa-chart-line text-danger"></i>
-
+            <i class="fa-solid fa-chart-line" style="color: #fe433d !important;"></i>
             Owner Dashboard
 
         </h2>
@@ -101,10 +100,9 @@ body{
 
             <div class="card stats-card h-100">
 
-                <div class="card-body text-center">
+                <div class="card-body text-center p-4">
 
-                    <i class="fa-solid fa-calendar-check fa-2x text-primary"></i>
-
+                    
                     <h2 class="fw-bold mt-3">
                         <%= totalBookings %>
                     </h2>
@@ -124,9 +122,9 @@ body{
 
             <div class="card stats-card h-100">
 
-                <div class="card-body text-center">
+                <div class="card-body text-center p-4">
 
-                    <i class="fa-solid fa-circle-check fa-2x text-success"></i>
+                    
 
                     <h2 class="fw-bold mt-3">
                         <%= activeBookings %>
@@ -147,9 +145,9 @@ body{
 
             <div class="card stats-card h-100">
 
-                <div class="card-body text-center">
+                <div class="card-body text-center p-4">
 
-                    <i class="fa-solid fa-flag-checkered fa-2x text-secondary"></i>
+                    
 
                     <h2 class="fw-bold mt-3">
                         <%= completedBookings %>
@@ -170,13 +168,12 @@ body{
 
             <div class="card stats-card h-100">
 
-                <div class="card-body text-center">
+                <div class="card-body text-center p-4">
 
-                    <i class="fa-solid fa-indian-rupee-sign fa-2x text-warning"></i>
 
                     <h2 class="fw-bold mt-3">
 
-                        ₹<%= totalRevenue.toLocaleString("en-IN") %>
+                        ₹ <%= totalRevenue.toLocaleString("en-IN") %>
 
                     </h2>
 
@@ -202,7 +199,7 @@ body{
 
             <div class="card-body text-center py-5">
 
-                <i class="fa-solid fa-calendar-xmark fa-4x text-secondary mb-3"></i>
+                <i class="fa-solid fa-calendar-xmark fa-3x text-secondary mb-3"></i>
 
                 <h3>No Bookings Yet</h3>
 
@@ -214,7 +211,7 @@ body{
 
                 <a
                     href="/listings/new"
-                    class="btn btn-danger">
+                    class="btn btn-danger" style="background-color: #fe433d !important; border-radius:1rem;">
 
                     Add New Listing
 
