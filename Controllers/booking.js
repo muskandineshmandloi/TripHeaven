@@ -93,3 +93,35 @@ module.exports.ownerDashboard = async (req, res) => {
 
     res.render("bookings/dashboard.ejs", { bookings });
 };
+
+
+module.exports.cancelBooking = async (req, res) => {
+
+    const { id } = req.params;
+
+    const booking = await Booking.findById(id);
+
+    if (!booking) {
+        req.flash("error", "Booking not found.");
+        return res.redirect("/bookings/my");
+    }
+
+    // Security: only the booking owner can cancel it
+    if (!booking.user.equals(req.user._id)) {
+        req.flash("error", "Unauthorized action.");
+        return res.redirect("/bookings/my");
+    }
+
+    if (booking.bookingStatus === "Cancelled") {
+        req.flash("error", "Booking is already cancelled.");
+        return res.redirect("/bookings/my");
+    }
+
+    booking.bookingStatus = "Cancelled";
+
+    await booking.save();
+
+    req.flash("success", "Booking cancelled successfully.");
+
+    res.redirect("/bookings/my");
+};

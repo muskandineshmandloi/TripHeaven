@@ -27,4 +27,11 @@ router.get(
     bookingController.ownerDashboard
 );
 
+
+router.patch(
+    "/bookings/:id/cancel",
+    isLoggedIn,
+    bookingController.cancelBooking
+);
+
 module.exports = router;

@@ -81,14 +81,53 @@
 
                     <div class="d-flex justify-content-between align-items-center">
 
-                        <span class="badge bg-success fs-6">
-                            <%= booking.bookingStatus %>
-                        </span>
+                        <% if (booking.bookingStatus === "Confirmed") { %>
 
-                        <a href="/listings/<%= booking.listing._id %>"
-                           class="btn btn-outline-dark btn-sm">
-                            View Property
-                        </a>
+                            <span class="badge bg-success fs-6">
+                                Confirmed
+                            </span>
+
+                        <% } else if (booking.bookingStatus === "Cancelled") { %>
+
+                            <span class="badge bg-danger fs-6">
+                                Cancelled
+                            </span>
+
+                        <% } else { %>
+
+                            <span class="badge bg-secondary fs-6">
+                                Completed
+                            </span>
+
+                        <% } %>
+
+                        <div>
+
+                            <a href="/listings/<%= booking.listing._id %>"
+                                class="btn btn-outline-dark btn-sm">
+                                View
+                            </a>
+
+                            <% if (booking.bookingStatus === "Confirmed") { %>
+
+                                <form
+                                    action="/bookings/<%= booking._id %>/cancel?_method=PATCH"
+                                    method="POST"
+                                    style="display:inline;">
+
+                                    <button
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Cancel this booking?')">
+
+                                        Cancel
+
+                                    </button>
+
+                                </form>
+
+                            <% } %>
+
+                        </div>
 
                     </div>
 
