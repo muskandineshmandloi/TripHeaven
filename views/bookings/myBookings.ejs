@@ -1,78 +1,207 @@
 <%- layout("/layouts/boilerplate") %>
 
-<div class="container mt-5 mb-5">
+<style>
 
-    <h2 class="fw-bold mb-4">
-        <i class="fa-solid fa-calendar-check"></i> My Bookings
-    </h2>
+body{
+    background:#f8f9fa;
+}
 
-    <% if(bookings.length === 0){ %>
+.booking-card{
+    border:none;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.3s;
+}
 
-        <div class="alert alert-info">
-            You haven't booked any property yet.
+.booking-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
+
+.booking-img{
+    height:250px;
+    object-fit:cover;
+    padding:18px;
+    border-radius:30px;
+}
+
+.info-box{
+    background:#f8f9fa;
+    border-radius:12px;
+    padding:12px;
+    text-align:center;
+}
+
+.price{
+    color:#198754;
+    font-size:1.4rem;
+    font-weight:bold;
+}
+
+.status-badge{
+    font-size:.9rem;
+    padding:8px 15px;
+    border-radius:30px;
+}
+
+.action-btn{
+    border-radius:10px;
+}
+
+</style>
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="fw-bold">
+
+            <i class="fa-solid fa-calendar-check text-danger"></i>
+
+            My Bookings
+
+        </h2>
+
+    </div>
+
+    <% if(bookings.length===0){ %>
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body text-center py-5">
+
+                <i class="fa-solid fa-suitcase-rolling fa-4x text-secondary mb-3"></i>
+
+                <h3>No Bookings Yet</h3>
+
+                <p class="text-muted">
+                    Book your first stay and start exploring amazing places.
+                </p>
+
+                <a href="/listings" class="btn btn-danger">
+                    Explore Listings
+                </a>
+
+            </div>
+
         </div>
 
     <% } %>
 
+
     <div class="row">
 
-        <% bookings.forEach(booking => { %>
+        <% bookings.forEach(booking=>{ %>
 
         <div class="col-lg-6 mb-4">
 
-            <div class="card shadow border-0 rounded-4 overflow-hidden h-100">
+            <div class="card booking-card h-100">
 
-                
                 <img
                     src="<%= booking.listing.image.url %>"
-                    class="card-img-top p-4 rounded-4"
-                    style="height:300px; object-fit:cover;"
+                    class="booking-img card-img-top"
                 >
 
+                <div class="card-body">
 
-                <div class="card-body p-4">
-
-                    <h4 class="card-title fw-bold mb-3">
+                    <h3 class="fw-bold mb-3">
                         <%= booking.listing.title %>
-                    </h4>
+                    </h3>
 
-                    <div class="row">
+                    <div class="row g-3 mb-4">
 
                         <div class="col-6">
-                            <small class="text-muted">Check-In</small>
-                            <p class="fw-semibold">
-                                <%= booking.checkIn.toDateString() %>
-                            </p>
+
+                            <div class="info-box">
+
+                                <i class="fa-solid fa-calendar-days text-primary"></i>
+
+                                <small class="d-block text-muted">
+                                    Check-In
+                                </small>
+
+                                <strong>
+                                    <%= booking.checkIn.toDateString() %>
+                                </strong>
+
+                            </div>
+
                         </div>
 
                         <div class="col-6">
-                            <small class="text-muted">Check-Out</small>
-                            <p class="fw-semibold">
-                                <%= booking.checkOut.toDateString() %>
-                            </p>
+
+                            <div class="info-box">
+
+                                <i class="fa-solid fa-calendar-check text-success"></i>
+
+                                <small class="d-block text-muted">
+                                    Check-Out
+                                </small>
+
+                                <strong>
+                                    <%= booking.checkOut.toDateString() %>
+                                </strong>
+
+                            </div>
+
                         </div>
 
                     </div>
 
-                    <hr>
 
-                    <div class="d-flex justify-content-between">
+                    <div class="row g-3">
 
-                        <div>
-                            <small class="text-muted">Guests</small>
-                            <h6><%= booking.guests %></h6>
+                        <div class="col-4">
+
+                            <div class="info-box">
+
+                                <i class="fa-solid fa-users"></i>
+
+                                <small class="d-block text-muted">
+                                    Guests
+                                </small>
+
+                                <strong><%= booking.guests %></strong>
+
+                            </div>
+
                         </div>
 
-                        <div>
-                            <small class="text-muted">Rooms</small>
-                            <h6><%= booking.rooms %></h6>
+                        <div class="col-4">
+
+                            <div class="info-box">
+
+                                <i class="fa-solid fa-bed"></i>
+
+                                <small class="d-block text-muted">
+                                    Rooms
+                                </small>
+
+                                <strong><%= booking.rooms %></strong>
+
+                            </div>
+
                         </div>
 
-                        <div>
-                            <small class="text-muted">Total</small>
-                            <h6 class="text-success">
-                                ₹<%= booking.totalPrice.toLocaleString("en-IN") %>
-                            </h6>
+                        <div class="col-4">
+
+                            <div class="info-box">
+
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                                <small class="d-block text-muted">
+                                    Total
+                                </small>
+
+                                <div class="price">
+
+                                    ₹<%= booking.totalPrice.toLocaleString("en-IN") %>
+
+                                </div>
+
+                            </div>
+
                         </div>
 
                     </div>
@@ -81,49 +210,71 @@
 
                     <div class="d-flex justify-content-between align-items-center">
 
-                        <% if (booking.bookingStatus === "Confirmed") { %>
-
-                            <span class="badge bg-success fs-6">
-                                Confirmed
-                            </span>
-
-                        <% } else if (booking.bookingStatus === "Cancelled") { %>
-
-                            <span class="badge bg-danger fs-6">
-                                Cancelled
-                            </span>
-
-                        <% } else { %>
-
-                            <span class="badge bg-secondary fs-6">
-                                Completed
-                            </span>
-
-                        <% } %>
-
                         <div>
 
-                            <a href="/listings/<%= booking.listing._id %>"
-                                class="btn btn-outline-dark btn-sm">
+                            <% if(booking.bookingStatus==="Confirmed"){ %>
+
+                                <span class="badge bg-success status-badge">
+
+                                    <i class="fa-solid fa-circle-check"></i>
+
+                                    Confirmed
+
+                                </span>
+
+                            <% } else if(booking.bookingStatus==="Cancelled"){ %>
+
+                                <span class="badge bg-danger status-badge">
+
+                                    <i class="fa-solid fa-ban"></i>
+
+                                    Cancelled
+
+                                </span>
+
+                            <% } else { %>
+
+                                <span class="badge bg-secondary status-badge">
+
+                                    <i class="fa-solid fa-flag-checkered"></i>
+
+                                    Completed
+
+                                </span>
+
+                            <% } %>
+
+                        </div>
+
+                        <div class="d-flex gap-2">
+
+                            <a
+                                href="/listings/<%= booking.listing._id %>"
+                                class="btn btn-outline-dark action-btn">
+
+                                <i class="fa-solid fa-eye"></i>
+
                                 View
+
                             </a>
 
-                            <% if (booking.bookingStatus === "Confirmed") { %>
+                            <% if(booking.bookingStatus==="Confirmed"){ %>
 
-                                <form
-                                    action="/bookings/<%= booking._id %>/cancel?_method=PATCH"
-                                    method="POST"
-                                    style="display:inline;">
+                            <form
+                                action="/bookings/<%= booking._id %>/cancel?_method=PATCH"
+                                method="POST">
 
-                                    <button
-                                        class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Cancel this booking?')">
+                                <button
+                                    class="btn btn-danger action-btn"
+                                    onclick="return confirm('Cancel this booking?')">
 
-                                        Cancel
+                                    <i class="fa-solid fa-xmark"></i>
 
-                                    </button>
+                                    Cancel
 
-                                </form>
+                                </button>
+
+                            </form>
 
                             <% } %>
 

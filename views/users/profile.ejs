@@ -2,28 +2,43 @@
 
 <style>
 
+body{
+    background:#f8f9fa;
+}
+
 .profile-card{
     border:none;
-    border-radius:15px;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
 .profile-icon{
-    font-size:80px;
+    font-size:85px;
     color:#6c757d;
+}
+
+.stat-card{
+    border:none;
+    border-radius:18px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-5px);
 }
 
 .listing-card{
     border:none;
-    border-radius:15px;
+    border-radius:18px;
     overflow:hidden;
     transition:.3s;
-    box-shadow:0 6px 20px rgba(0,0,0,.08);
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .listing-card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 12px 28px rgba(0,0,0,.15);
+    transform:translateY(-8px);
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
 }
 
 .listing-card img{
@@ -40,36 +55,29 @@
     background:#e63946;
 }
 
-.stats-card{
-    border:none;
-    border-radius:15px;
-    box-shadow:0 5px 18px rgba(0,0,0,.08);
-}
-
 </style>
 
+<div class="container py-5">
 
-<div class="container mt-5">
-
-    <!-- PROFILE -->
+    <!-- Profile Card -->
 
     <div class="card profile-card mb-5">
 
-        <div class="card-body text-center">
+        <div class="card-body text-center py-5">
 
             <i class="fa-solid fa-circle-user profile-icon mb-3"></i>
 
-            <h2 class="fw-bold">
+            <h2 class="fw-bold mb-1">
                 <%= user.username %>
             </h2>
 
-            <p class="text-muted">
+            <p class="text-muted mb-3">
                 <i class="fa-solid fa-envelope"></i>
                 <%= user.email %>
             </p>
 
-            <span class="badge bg-success fs-6">
-                <%= listings.length %> Listings
+            <span class="badge bg-danger fs-6 px-3 py-2">
+                Host Account
             </span>
 
         </div>
@@ -77,25 +85,24 @@
     </div>
 
 
+    <!-- Stats -->
 
-    <!-- STATS -->
+    <div class="row g-4 mb-5">
 
-    <div class="row mb-5">
+        <div class="col-md-4">
 
-        <div class="col-md-4 mb-3">
+            <div class="card stat-card">
 
-            <div class="card stats-card">
+                <div class="card-body text-center py-4">
 
-                <div class="card-body text-center">
+                    <i class="fa-solid fa-house fa-2x text-primary mb-3"></i>
 
-                    <i class="fa-solid fa-house fa-2x text-primary"></i>
-
-                    <h3 class="mt-2">
+                    <h2 class="fw-bold">
                         <%= listings.length %>
-                    </h3>
+                    </h2>
 
                     <p class="text-muted mb-0">
-                        Properties Listed
+                        Listings
                     </p>
 
                 </div>
@@ -104,41 +111,17 @@
 
         </div>
 
+        <div class="col-md-4">
 
-        <div class="col-md-4 mb-3">
+            <div class="card stat-card">
 
-            <div class="card stats-card">
+                <div class="card-body text-center py-4">
 
-                <div class="card-body text-center">
+                    <i class="fa-solid fa-calendar-check fa-2x text-success mb-3"></i>
 
-                    <i class="fa-solid fa-star fa-2x text-warning"></i>
-
-                    <h3 class="mt-2">
-                        Host
-                    </h3>
-
-                    <p class="text-muted mb-0">
-                        Account Status
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="col-md-4 mb-3">
-
-            <div class="card stats-card">
-
-                <div class="card-body text-center">
-
-                    <i class="fa-solid fa-calendar-check fa-2x text-success"></i>
-
-                    <h3 class="mt-2">
+                    <h2 class="fw-bold">
                         Active
-                    </h3>
+                    </h2>
 
                     <p class="text-muted mb-0">
                         Hosting Status
@@ -150,39 +133,71 @@
 
         </div>
 
+        <div class="col-md-4">
+
+            <div class="card stat-card">
+
+                <div class="card-body text-center py-4">
+
+                    <i class="fa-solid fa-star fa-2x text-warning mb-3"></i>
+
+                    <h2 class="fw-bold">
+                        Host
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Account Type
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 
+    <!-- Listings -->
 
-    <!-- LISTINGS -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <h2 class="fw-bold mb-4">
+        <h2 class="fw-bold">
+            <i class="fa-solid fa-house"></i>
+            My Listings
+        </h2>
 
-        <i class="fa-solid fa-house"></i>
+        <a href="/listings/new" class="btn btn-danger">
+            <i class="fa-solid fa-plus"></i>
+            Add Listing
+        </a>
 
-        My Listings
-
-    </h2>
+    </div>
 
 
+    <% if(listings.length===0){ %>
 
-    <% if(listings.length === 0){ %>
+        <div class="card shadow-sm border-0">
 
-        <div class="alert alert-info text-center">
+            <div class="card-body text-center py-5">
 
-            <h5>No properties listed yet.</h5>
+                <i class="fa-solid fa-house-circle-xmark fa-4x text-secondary mb-3"></i>
 
-            <a href="/listings/new"
-               class="btn btn-dark mt-2">
+                <h4>No listings yet</h4>
 
-                Create Your First Listing
+                <p class="text-muted">
+                    Start hosting by creating your first property.
+                </p>
 
-            </a>
+                <a href="/listings/new" class="btn btn-danger">
+                    Create Listing
+                </a>
+
+            </div>
 
         </div>
 
     <% } %>
-
 
 
     <div class="row">
@@ -204,12 +219,11 @@
                         <%= listing.title %>
                     </h5>
 
-                    <p class="text-muted">
+                    <p class="text-muted mb-2">
 
-                        <i class="fa-solid fa-location-dot"></i>
+                        <i class="fa-solid fa-location-dot text-danger"></i>
 
-                        <%= listing.location %>,
-                        <%= listing.country %>
+                        <%= listing.location %>, <%= listing.country %>
 
                     </p>
 
@@ -218,9 +232,7 @@
                         ₹<%= listing.price.toLocaleString("en-IN") %>
 
                         <small class="text-muted fs-6">
-
                             / night
-
                         </small>
 
                     </h5>
@@ -232,6 +244,8 @@
                     <a
                         href="/listings/<%= listing._id %>"
                         class="btn btn-danger view-btn w-100">
+
+                        <i class="fa-solid fa-eye"></i>
 
                         View Property
 
