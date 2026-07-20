@@ -15,8 +15,8 @@ body{
 }
 
 .booking-card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 15px 35px rgba(0,0,0,.15);
+    transform:translateY(-6px);
+    box-shadow:0 16px 35px rgba(0,0,0,.15);
 }
 
 .booking-img{
@@ -28,25 +28,32 @@ body{
 
 .info-box{
     background:#f8f9fa;
-    border-radius:12px;
-    padding:12px;
+    border-radius:15px;
+    padding:15px;
     text-align:center;
 }
 
 .price{
     color:#198754;
-    font-size:1.4rem;
-    font-weight:bold;
+    font-size:1.35rem;
+    font-weight:700;
 }
 
 .status-badge{
-    font-size:.9rem;
-    padding:8px 15px;
+    padding:8px 18px;
     border-radius:30px;
+    font-size:.9rem;
 }
 
 .action-btn{
     border-radius:10px;
+    min-width:110px;
+}
+
+.empty-card{
+    border:none;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
 </style>
@@ -55,39 +62,55 @@ body{
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <h2 class="fw-bold">
+        <div>
 
-            <i class="fa-solid fa-calendar-check text-danger"></i>
+            <h2 class="fw-bold mb-1">
 
-            My Bookings
+                <i class="fa-solid fa-calendar-check text-danger"></i>
 
-        </h2>
+                My Bookings
 
-    </div>
+            </h2>
 
-    <% if(bookings.length===0){ %>
+            <p class="text-muted mb-0">
 
-        <div class="card shadow-sm border-0">
+                Manage all your upcoming and completed trips.
 
-            <div class="card-body text-center py-5">
-
-                <i class="fa-solid fa-suitcase-rolling fa-4x text-secondary mb-3"></i>
-
-                <h3>No Bookings Yet</h3>
-
-                <p class="text-muted">
-                    Book your first stay and start exploring amazing places.
-                </p>
-
-                <a href="/listings" class="btn btn-danger">
-                    Explore Listings
-                </a>
-
-            </div>
+            </p>
 
         </div>
 
+    </div>
+
+
+    <% if(bookings.length===0){ %>
+
+    <div class="card empty-card">
+
+        <div class="card-body text-center py-5">
+
+            <i class="fa-solid fa-suitcase-rolling fa-4x text-secondary mb-3"></i>
+
+            <h3>No Bookings Yet</h3>
+
+            <p class="text-muted">
+
+                Start exploring amazing destinations and book your next stay.
+
+            </p>
+
+            <a href="/listings" class="btn btn-danger rounded-pill px-4">
+
+                Explore Listings
+
+            </a>
+
+        </div>
+
+    </div>
+
     <% } %>
+
 
 
     <div class="row">
@@ -105,11 +128,22 @@ body{
 
                 <div class="card-body">
 
-                    <h3 class="fw-bold mb-3">
+                    <h3 class="fw-bold mb-2">
+
                         <%= booking.listing.title %>
+
                     </h3>
 
-                    <div class="row g-3 mb-4">
+                    <p class="text-muted">
+
+                        <i class="fa-solid fa-location-dot text-danger"></i>
+
+                        <%= booking.listing.location %>,
+                        <%= booking.listing.country %>
+
+                    </p>
+
+                    <div class="row g-3 my-3">
 
                         <div class="col-6">
 
@@ -118,11 +152,15 @@ body{
                                 <i class="fa-solid fa-calendar-days text-primary"></i>
 
                                 <small class="d-block text-muted">
+
                                     Check-In
+
                                 </small>
 
                                 <strong>
+
                                     <%= booking.checkIn.toDateString() %>
+
                                 </strong>
 
                             </div>
@@ -136,11 +174,15 @@ body{
                                 <i class="fa-solid fa-calendar-check text-success"></i>
 
                                 <small class="d-block text-muted">
+
                                     Check-Out
+
                                 </small>
 
                                 <strong>
+
                                     <%= booking.checkOut.toDateString() %>
+
                                 </strong>
 
                             </div>
@@ -148,6 +190,7 @@ body{
                         </div>
 
                     </div>
+
 
 
                     <div class="row g-3">
@@ -159,10 +202,16 @@ body{
                                 <i class="fa-solid fa-users"></i>
 
                                 <small class="d-block text-muted">
+
                                     Guests
+
                                 </small>
 
-                                <strong><%= booking.guests %></strong>
+                                <strong>
+
+                                    <%= booking.guests %>
+
+                                </strong>
 
                             </div>
 
@@ -175,10 +224,16 @@ body{
                                 <i class="fa-solid fa-bed"></i>
 
                                 <small class="d-block text-muted">
+
                                     Rooms
+
                                 </small>
 
-                                <strong><%= booking.rooms %></strong>
+                                <strong>
+
+                                    <%= booking.rooms %>
+
+                                </strong>
 
                             </div>
 
@@ -191,7 +246,9 @@ body{
                                 <i class="fa-solid fa-indian-rupee-sign"></i>
 
                                 <small class="d-block text-muted">
+
                                     Total
+
                                 </small>
 
                                 <div class="price">
@@ -208,7 +265,7 @@ body{
 
                     <hr>
 
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
 
                         <div>
 
@@ -222,17 +279,7 @@ body{
 
                                 </span>
 
-                            <% } else if(booking.bookingStatus==="Cancelled"){ %>
-
-                                <span class="badge bg-danger status-badge">
-
-                                    <i class="fa-solid fa-ban"></i>
-
-                                    Cancelled
-
-                                </span>
-
-                            <% } else { %>
+                            <% } else if(booking.bookingStatus==="Completed"){ %>
 
                                 <span class="badge bg-secondary status-badge">
 
@@ -242,9 +289,20 @@ body{
 
                                 </span>
 
+                            <% } else { %>
+
+                                <span class="badge bg-danger status-badge">
+
+                                    <i class="fa-solid fa-ban"></i>
+
+                                    Cancelled
+
+                                </span>
+
                             <% } %>
 
                         </div>
+
 
                         <div class="d-flex gap-2">
 
@@ -254,7 +312,7 @@ body{
 
                                 <i class="fa-solid fa-eye"></i>
 
-                                View
+                                View Property
 
                             </a>
 
