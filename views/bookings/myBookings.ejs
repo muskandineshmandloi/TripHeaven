@@ -1,45 +1,103 @@
-<h1>My Bookings</h1>
+<%- layout("/layouts/boilerplate") %>
 
-<% if (bookings.length === 0) { %>
-    <p>No bookings yet.</p>
-<% } %>
+<div class="container mt-5">
 
-<div class="bookings-container">
-    <% bookings.forEach(booking => { %>
-        <div class="booking-card">
+    <img
+        src="<%= booking.listing.image.url %>"
+        class="card-img-top"
+        style="height:220px; object-fit:cover;"
+    >
 
-            <h3><%= booking.listing.title %></h3>
+    <h2 class="fw-bold mb-4">
+        <i class="fa-solid fa-calendar-check"></i> My Bookings
+    </h2>
 
-            <p>
-                <b>Check-in:</b> 
-                <%= booking.checkIn.toDateString() %>
-            </p>
+    <% if(bookings.length === 0){ %>
 
-            <p>
-                <b>Check-out:</b> 
-                <%= booking.checkOut.toDateString() %>
-            </p>
+        <div class="alert alert-info">
+            You haven't booked any property yet.
+        </div>
 
-            <p>
-                <b>Guests:</b> <%= booking.guests %>
-            </p>
+    <% } %>
 
-            <p>
-                <b>Rooms:</b> <%= booking.rooms %>
-            </p>
+    <div class="row">
 
-            <p>
-                <b>Total Price:</b> ₹<%= booking.totalPrice %>
-            </p>
+        <% bookings.forEach(booking => { %>
 
-            <p>
-                <b>Status:</b> <%= booking.bookingStatus %>
-            </p>
+        <div class="col-lg-6 mb-4">
 
-            <a href="/listings/<%= booking.listing._id %>">
-                View Listing
-            </a>
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <h4 class="card-title mb-3">
+                        <%= booking.listing.title %>
+                    </h4>
+
+                    <div class="row">
+
+                        <div class="col-6">
+                            <small class="text-muted">Check-In</small>
+                            <p class="fw-semibold">
+                                <%= booking.checkIn.toDateString() %>
+                            </p>
+                        </div>
+
+                        <div class="col-6">
+                            <small class="text-muted">Check-Out</small>
+                            <p class="fw-semibold">
+                                <%= booking.checkOut.toDateString() %>
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+                            <small class="text-muted">Guests</small>
+                            <h6><%= booking.guests %></h6>
+                        </div>
+
+                        <div>
+                            <small class="text-muted">Rooms</small>
+                            <h6><%= booking.rooms %></h6>
+                        </div>
+
+                        <div>
+                            <small class="text-muted">Total</small>
+                            <h6 class="text-success">
+                                ₹<%= booking.totalPrice.toLocaleString("en-IN") %>
+                            </h6>
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <span class="badge bg-success fs-6">
+                            <%= booking.bookingStatus %>
+                        </span>
+
+                        <a href="/listings/<%= booking.listing._id %>"
+                           class="btn btn-outline-dark btn-sm">
+                            View Property
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
-    <% }) %>
+
+        <% }) %>
+
+    </div>
+
 </div>
