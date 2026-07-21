@@ -40,7 +40,8 @@ module.exports.tripPlanner = async (req, res) => {
             contents: prompt,
         });
 
-        const plan = response.text;
+        const plan = response.text();
+        console.log(response);
 
         res.render("ai/planner", {
             plan,
@@ -51,7 +52,8 @@ module.exports.tripPlanner = async (req, res) => {
 
     } catch (err) {
 
-        console.log(err);
+        console.error(err.message);
+        console.error(err);
 
         res.render("ai/planner", {
             plan: "Something went wrong while generating the travel plan.",
