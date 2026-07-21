@@ -1,4 +1,4 @@
-const ai = require("../ai/genai");
+const groq = require("../ai/groq");
 
 module.exports.renderPlanner = (req, res) => {
 
@@ -40,14 +40,17 @@ Travel Tips
 Keep the response concise, well-structured, and easy to read.
 `;
 
-        const response = await ai.models.generateContent({
-            model: "gemini-2.0-flash",
-            contents: prompt,
+        const completion = await groq.chat.completions.create({
+            model: "llama-3.1-8b-instant",
+            messages: [
+                {
+                    role: "user",
+                    content: prompt,
+                },
+            ],
         });
 
-        console.log(response);
-
-        const plan = response.text;
+        const plan = completion.choices[0].message.content;
 
         res.render("ai/planner", {
             plan,
