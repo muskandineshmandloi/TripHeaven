@@ -18,30 +18,36 @@ module.exports.tripPlanner = async (req, res) => {
         const { destination, budget, days, style } = req.body;
 
         const prompt = `
-                You are an AI Travel Planner.
+You are a professional AI Travel Planner.
 
-                Plan a ${days}-day ${style} trip to ${destination}
-                with a total budget of ₹${budget}.
+Create a ${days}-day ${style} trip to ${destination}
+with a total budget of ₹${budget}.
 
-                Provide the response in the following sections:
+Provide the response in the following format:
 
-                1. Recommended Stay
-                2. Day-wise Itinerary
-                3. Budget Breakdown
-                4. Places to Visit
-                5. Food Recommendations
-                6. Travel Tips
+Recommended Stay
 
-                Keep the response concise, well-structured, and easy to read.
-                `;
+Day-wise Itinerary
+
+Budget Breakdown
+
+Places to Visit
+
+Food Recommendations
+
+Travel Tips
+
+Keep the response concise, well-structured, and easy to read.
+`;
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash-lite",
+            model: "gemini-2.0-flash",
             contents: prompt,
         });
 
-        const plan = response.text();
         console.log(response);
+
+        const plan = response.text;
 
         res.render("ai/planner", {
             plan,
@@ -52,7 +58,7 @@ module.exports.tripPlanner = async (req, res) => {
 
     } catch (err) {
 
-        console.error(err.message);
+        console.error("Gemini Error:");
         console.error(err);
 
         res.render("ai/planner", {
