@@ -24,14 +24,6 @@
     color:#fe433d;
 }
 
-pre{
-    white-space:pre-wrap;
-    word-wrap:break-word;
-    font-family:inherit;
-    font-size:16px;
-    line-height:1.8;
-}
-
 .ai-content h1,
 .ai-content h2,
 .ai-content h3{
@@ -68,7 +60,7 @@ pre{
     <div class="text-center mb-5">
 
         <h1 class="fw-bold">
-            <i class="fa-solid fa-wand-magic-sparkles" style="color: #fe433d;"></i>
+            <i class="fa-solid fa-wand-magic-sparkles" style="color:#fe433d;"></i>
             AI Trip Planner
         </h1>
 
@@ -144,13 +136,11 @@ pre{
                             </label>
 
                             <select class="form-select" name="style">
-
                                 <option>Budget</option>
                                 <option>Luxury</option>
                                 <option>Family</option>
                                 <option>Solo</option>
                                 <option>Couple</option>
-
                             </select>
 
                         </div>
@@ -169,8 +159,7 @@ pre{
 
     </div>
 
-
-    <% if(plan){ %>
+    <% if (htmlPlan) { %>
 
     <div class="row justify-content-center ai-result">
 
@@ -181,7 +170,7 @@ pre{
                 <div class="card-body p-5">
 
                     <h2 class="fw-bold mb-4">
-                        <i class="fa-solid fa-wand-magic-sparkles" style="color: #fe433d;"></i>
+                        <i class="fa-solid fa-wand-magic-sparkles" style="color:#fe433d;"></i>
                         Your AI Travel Plan
                     </h2>
 

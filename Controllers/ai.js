@@ -1,46 +1,42 @@
 const groq = require("../ai/groq");
 const { marked } = require("marked");
-const htmlPlan = marked.parse(plan);
 
 module.exports.renderPlanner = (req, res) => {
-
     res.render("ai/planner", {
-        plan: null,
+        htmlPlan: null,
         destination: "",
         budget: "",
         days: ""
     });
-
 };
 
 module.exports.tripPlanner = async (req, res) => {
-
     try {
 
         const { destination, budget, days, style } = req.body;
 
         const prompt = `
-        You are a professional AI Travel Planner.
+You are a professional AI Travel Planner.
 
-        Create a ${days}-day ${style} trip to ${destination}
-        with a total budget of ₹${budget}.
+Create a ${days}-day ${style} trip to ${destination}
+with a total budget of ₹${budget}.
 
-        Provide the response in the following format:
+Return the response in Markdown format.
 
-        Recommended Stay
+# Recommended Stay
 
-        Day-wise Itinerary
+# Day-wise Itinerary
 
-        Budget Breakdown
+# Budget Breakdown
 
-        Places to Visit
+# Places to Visit
 
-        Food Recommendations
+# Food Recommendations
 
-        Travel Tips
+# Travel Tips
 
-        Keep the response concise, well-structured, and easy to read.
-        `;
+Keep the response concise, well-structured, and easy to read.
+`;
 
         const completion = await groq.chat.completions.create({
             model: "llama-3.1-8b-instant",
@@ -54,6 +50,8 @@ module.exports.tripPlanner = async (req, res) => {
 
         const plan = completion.choices[0].message.content;
 
+        const htmlPlan = marked.parse(plan);
+
         res.render("ai/planner", {
             htmlPlan,
             destination,
@@ -63,16 +61,14 @@ module.exports.tripPlanner = async (req, res) => {
 
     } catch (err) {
 
-        console.error("Gemini Error:");
         console.error(err);
 
         res.render("ai/planner", {
-            plan: "Something went wrong while generating the travel plan.",
+            htmlPlan: "<p>Something went wrong while generating the travel plan.</p>",
             destination: "",
             budget: "",
             days: ""
         });
 
     }
-
 };
