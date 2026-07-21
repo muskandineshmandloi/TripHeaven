@@ -1,4 +1,4 @@
-const ai = require("../ai/gemini");
+const ai = require("../ai/genai");
 
 module.exports.tripPlanner = async (req, res) => {
 
