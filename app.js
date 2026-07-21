@@ -20,6 +20,8 @@ const reviewsRouter = require("./routes/reviews.js");
 const listingsRouter = require("./routes/listings.js");
 const userRouter = require("./routes/user.js");
 const bookingRouter = require("./routes/booking.js");
+const aiRouter = require("./routes/ai");
+
 
 const dbURL = process.env.ATLAS_URL;
 
@@ -84,6 +86,7 @@ main()
 
     app.use("/listings", listingsRouter);
     app.use("/listings/:id/reviews", reviewsRouter);
+    app.use("/ai", aiRouter);
     app.use("/", userRouter);
     app.use("/", bookingRouter);
 

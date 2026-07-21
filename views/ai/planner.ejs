@@ -1,0 +1,120 @@
+<%- layout("/layouts/boilerplate") %>
+
+<style>
+    .generate{
+        border-radius: 1rem !important;
+        background-color: #fe433d !important;
+        color: black !important;
+        padding: 0 1rem 0 1rem;
+        height: 2rem;
+    }
+</style>
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold">
+            <i class="fa-solid fa-wand-magic-sparkles" style="color: #fe433d !important;"></i>
+            AI Trip Planner
+        </h1>
+
+        <p class="text-muted">
+            Plan your perfect trip using Artificial Intelligence.
+        </p>
+
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <div class="card-body p-5">
+
+                    <form action="/ai/trip-planner" method="POST">
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Destination
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="destination"
+                                placeholder="Goa"
+                                required>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Budget <i class="fa-solid fa-indian-rupee-sign" style="color: #fe433d !important;"></i>
+                            </label>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="budget"
+                                placeholder="30000"
+                                required>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Number of Days
+                            </label>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="days"
+                                min="1"
+                                required>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Travel Style
+                            </label>
+
+                            <select
+                                class="form-select"
+                                name="style">
+
+                                <option>Budget</option>
+                                <option>Luxury</option>
+                                <option>Family</option>
+                                <option>Solo</option>
+                                <option>Couple</option>
+
+                            </select>
+
+                        </div>
+
+                        <button
+                            class="btn w-100 generate" >
+
+                            Generate AI Plan
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
