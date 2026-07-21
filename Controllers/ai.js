@@ -1,4 +1,6 @@
 const groq = require("../ai/groq");
+const { marked } = require("marked");
+const htmlPlan = marked.parse(plan);
 
 module.exports.renderPlanner = (req, res) => {
 
@@ -18,27 +20,27 @@ module.exports.tripPlanner = async (req, res) => {
         const { destination, budget, days, style } = req.body;
 
         const prompt = `
-You are a professional AI Travel Planner.
+        You are a professional AI Travel Planner.
 
-Create a ${days}-day ${style} trip to ${destination}
-with a total budget of ₹${budget}.
+        Create a ${days}-day ${style} trip to ${destination}
+        with a total budget of ₹${budget}.
 
-Provide the response in the following format:
+        Provide the response in the following format:
 
-Recommended Stay
+        Recommended Stay
 
-Day-wise Itinerary
+        Day-wise Itinerary
 
-Budget Breakdown
+        Budget Breakdown
 
-Places to Visit
+        Places to Visit
 
-Food Recommendations
+        Food Recommendations
 
-Travel Tips
+        Travel Tips
 
-Keep the response concise, well-structured, and easy to read.
-`;
+        Keep the response concise, well-structured, and easy to read.
+        `;
 
         const completion = await groq.chat.completions.create({
             model: "llama-3.1-8b-instant",
@@ -53,7 +55,7 @@ Keep the response concise, well-structured, and easy to read.
         const plan = completion.choices[0].message.content;
 
         res.render("ai/planner", {
-            plan,
+            htmlPlan,
             destination,
             budget,
             days
