@@ -1,7 +1,10 @@
 const ai = require("../ai/genai");
 
-module.exports.tripPlanner = async (req, res) => {
+module.exports.renderPlanner = (req, res) => {
+    res.render("ai/planner");
+};
 
+module.exports.tripPlanner = async (req, res) => {
     try {
 
         const { destination, budget, days } = req.body;
@@ -36,5 +39,4 @@ module.exports.tripPlanner = async (req, res) => {
         });
 
     }
-
 };
